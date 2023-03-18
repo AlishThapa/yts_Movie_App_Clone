@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yts_movie/Bloc/app_bloc.dart';
 import 'package:yts_movie/Models/MainScreenModals/movie_details.dart';
 
+import '../Widget/custom_app_bar.dart';
 import '../Widget/movie_list.dart';
 import '../Widget/top_bar.dart';
 
@@ -26,31 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: const Color(0xff23241F),
-          appBar: AppBar(
-            // ignore: use_full_hex_values_for_flutter_colors
-            backgroundColor: Colors.black,
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Logo-YTS.svg/1200px-Logo-YTS.svg.png'),
-            ),
-            actions: const [
-              Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.search)),
-              Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(
-                      child: Text(
-                    '4K',
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                    ),
-                  ))),
-              Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.bar_chart)),
-              Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.list_alt)),
-              Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.person)),
-            ],
-          ),
+          appBar: const CustomAppBar(),
           body: BlocBuilder<AppBloc, Data>(
             builder: (context, state) => SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -101,3 +78,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

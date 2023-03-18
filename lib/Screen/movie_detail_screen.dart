@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../Widget/custom_app_bar.dart';
+import '../Widget/download_options.dart';
+import '../Widget/movie_review.dart';
+import '../Widget/options_for_720p.dart';
+import '../Widget/top_cast_names.dart';
+
 // ignore: must_be_immutable
 class MovieDetail extends StatefulWidget {
-  MovieDetail(
-      {super.key,
-      required this.movieTitle,
-      required this.movieYear,
-      required this.movieGenre,
-      required this.movieImage,
-      required this.movieRating,
-      required this.movieRuntime,
-      required this.movieSummary,
-      required this.movieSize});
+  MovieDetail({super.key,
+    required this.movieTitle,
+    required this.movieYear,
+    required this.movieGenre,
+    required this.movieImage,
+    required this.movieRating,
+    required this.movieRuntime,
+    required this.movieSummary,
+    required this.movieSize});
 
   String movieTitle;
   int movieYear;
@@ -41,31 +46,7 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xff1d1d1d),
-        appBar: AppBar(
-          // ignore: use_full_hex_values_for_flutter_colors
-          backgroundColor: Colors.black,
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Logo-YTS.svg/1200px-Logo-YTS.svg.png'),
-          ),
-          actions: const [
-            Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.search)),
-            Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text(
-                  '4K',
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                  ),
-                ))),
-            Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.bar_chart)),
-            Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.list_alt)),
-            Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.person)),
-          ],
-        ),
+        appBar: const CustomAppBar(),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
@@ -87,7 +68,8 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                   height: 20,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    separatorBuilder: (context, index) => const Text(
+                    separatorBuilder: (context, index) =>
+                    const Text(
                       '/',
                       style: TextStyle(color: Colors.white, fontSize: 21),
                       overflow: TextOverflow.ellipsis,
@@ -181,82 +163,11 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                           ),
                         ),
                         const SizedBox(height: 5),
-                        Container(
-                          height: 32,
-                          width: 125,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            // crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.download,
-                                color: Colors.green,
-                              ),
-                              Text(
-                                '720p.BluRay',
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ),
+                        DownloadOptions(optionName: '720p.BluRay'),
                         const SizedBox(height: 5),
-                        Container(
-                          height: 32,
-                          width: 125,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            // crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.download,
-                                color: Colors.green,
-                              ),
-                              Text(
-                                '1080p.BluRay',
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ),
+                        DownloadOptions(optionName: '1080p.BluRay'),
                         const SizedBox(height: 5),
-                        Container(
-                          height: 60,
-                          width: 125,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14.0),
-                            child: Row(
-                              children: const [
-                                Icon(
-                                  Icons.download,
-                                  color: Colors.green,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    'Download Subtitles',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                    softWrap: true,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        DownloadOptions(optionName: 'Download Subtitles'),
                       ],
                     ),
                   ],
@@ -297,7 +208,10 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Container(
                     height: 1,
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     color: const Color(0xff2f2f2f),
                   ),
                 ),
@@ -306,122 +220,14 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 20),
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(text: 'Jensen Ackles', style: TextStyle(color: Colors.grey)),
-                          TextSpan(text: ' as Batman', style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width,
-                    color: const Color(0xff2f2f2f),
-                  ),
-                ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(text: 'Matt Boomer', style: TextStyle(color: Colors.grey)),
-                          TextSpan(text: ' as The Flash', style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width,
-                    color: const Color(0xff2f2f2f),
-                  ),
-                ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(text: 'Gideon Adlon', style: TextStyle(color: Colors.grey)),
-                          TextSpan(text: ' as Phantom Girl', style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width,
-                    color: const Color(0xff2f2f2f),
-                  ),
-                ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(text: 'Harry Shum Jr.', style: TextStyle(color: Colors.grey)),
-                          TextSpan(text: ' as Brainaic 5', style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width,
-                    color: const Color(0xff2f2f2f),
-                  ),
-                ),
+                TopCastNames(name: 'Jensen Ackles', subName: ' as Batman'),
+                const Divider(color: Color(0xff555555)),
+                TopCastNames(name: 'Matt Boomer', subName: ' as The Flash'),
+                const Divider(color: Color(0xff555555)),
+                TopCastNames(name: 'Gideon Adlon', subName: ' as Phantom Girl'),
+                const Divider(color: Color(0xff555555)),
+                TopCastNames(name: 'Harry Shum Jr.', subName: ' as  Brainaic 5'),
+                const Divider(color: Color(0xff555555)),
                 const SizedBox(height: 5),
                 TabBar(
                   controller: bartabcontroller,
@@ -436,153 +242,20 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                       Column(
                         children: [
                           const SizedBox(height: 10),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.folder,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                '768.71 MB',
-                                style: TextStyle(color: Colors.grey, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0xff2f2f2f),
-                            ),
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.expand,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                '1280*720',
-                                style: TextStyle(color: Colors.grey, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0xff2f2f2f),
-                            ),
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.volume_up,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                'English 2.0',
-                                style: TextStyle(color: Colors.grey, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0xff2f2f2f),
-                            ),
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.remove_red_eye,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                'PG-13',
-                                style: TextStyle(color: Colors.grey, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0xff2f2f2f),
-                            ),
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.subtitles,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                'Subtitles',
-                                style: TextStyle(color: Colors.green, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0xff2f2f2f),
-                            ),
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.camera_alt_rounded,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                '23.976 fps',
-                                style: TextStyle(color: Colors.grey, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0xff2f2f2f),
-                            ),
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.alarm,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                '1 hr 23 min',
-                                style: TextStyle(color: Colors.grey, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              height: 1,
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0xff2f2f2f),
-                            ),
-                          ),
+                          OptionsFor20p(name: '768.71 MB', icon: const Icon(Icons.folder, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: '1280*720', icon: const Icon(Icons.expand, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: 'English 2.0', icon: const Icon(Icons.volume_up, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: 'PG-13', icon: const Icon(Icons.remove_red_eye, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: 'Subtitles', icon: const Icon(Icons.subtitles, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: '23.976 fps', icon: const Icon(Icons.camera_alt_rounded, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: '1 hr 23 min', icon: const Icon(Icons.alarm, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
                           Row(
                             children: const [
                               Text(
@@ -598,49 +271,49 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                           ),
                         ],
                       ),
-                      const Text('444444444'),
+                      Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          OptionsFor20p(name: '768.71 MB', icon: const Icon(Icons.folder, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: '1280*720', icon: const Icon(Icons.expand, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: 'English 2.0', icon: const Icon(Icons.volume_up, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: 'PG-13', icon: const Icon(Icons.remove_red_eye, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: 'Subtitles', icon: const Icon(Icons.subtitles, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: '23.976 fps', icon: const Icon(Icons.camera_alt_rounded, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          OptionsFor20p(name: '1 hr 23 min', icon: const Icon(Icons.alarm, color: Colors.grey)),
+                          const Divider(color: Color(0xff555555)),
+                          Row(
+                            children: const [
+                              Text(
+                                'P/S',
+                                style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                '23.976 fps',
+                                style: TextStyle(color: Colors.grey, fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  children: const [
-                    Icon(
-                      Icons.star,
-                      color: Colors.green,
-                      size: 30,
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      'Movie Reviews',
-                      style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 30),
-                    )
-                  ],
-                ),
-                Row(
-                  children: const [
-                    Text(
-                      'Reviewed by',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(width: 5),
-                    Icon(Icons.star, color: Colors.green, size: 15),
-                    Text(
-                      '/10',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width,
-                    color: const Color(0xff2f2f2f),
-                  ),
-                ),
+                const MovieReviewWidget(),
+                const Divider(color: Color(0xff555555)),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   child: const Text('Read more IMDb reviews', textAlign: TextAlign.end, style: TextStyle(color: Colors.grey)),
                 ),
                 Row(
@@ -656,19 +329,24 @@ class _MovieDetailState extends State<MovieDetail> with TickerProviderStateMixin
                         children: [
                           TextSpan(
                             text: '20',
-                            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 25  ),
+                            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 25),
                           ),
-                          TextSpan(text: 'Comments', style: TextStyle( fontSize: 25  ),)
+                          TextSpan(
+                            text: 'Comments',
+                            style: TextStyle(fontSize: 25),
+                          )
                         ],
                       ),
                     ),
                   ],
                 )
               ],
-            ),
-          ),
-        ),
-      ),
+            ),)
+          ,
+        )
+        ,
+      )
+      ,
     );
   }
 }
